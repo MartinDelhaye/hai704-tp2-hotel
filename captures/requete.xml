@@ -3,12 +3,12 @@
     <soap:Body>
         <h:chercherOffres>
             <demande>
-                <ville>Montpellier</ville>
                 <arrivee>2026-12-10</arrivee>
                 <depart>2026-12-13</depart>
-                <personnes>2</personnes>
                 <etoilesMin>3</etoilesMin>
-                <prixMax>150.00</prixMax>
+                <personnes>2</personnes>
+                <prixMax>400.00</prixMax>
+                <ville>Montpellier</ville>
             </demande>
         </h:chercherOffres>
     </soap:Body>

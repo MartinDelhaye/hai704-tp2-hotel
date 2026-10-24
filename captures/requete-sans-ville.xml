@@ -1,0 +1,14 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:h="http://hai704i.hotel.fr/">
+    <soap:Body>
+        <h:chercherOffres>
+            <demande>
+                <arrivee>2026-12-10</arrivee>
+                <depart>2026-12-13</depart>
+                <personnes>2</personnes>
+                <etoilesMin>3</etoilesMin>
+                <prixMax>400.00</prixMax>
+            </demande>
+        </h:chercherOffres>
+    </soap:Body>
+</soap:Envelope>

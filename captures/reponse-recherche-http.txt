@@ -1,5 +1,5 @@
 HTTP/1.1 200 OK
-Date: Sat, 24 Oct 2026 16:51:38 GMT
+Date: Sat, 24 Oct 2026 22:06:14 GMT
 Transfer-encoding: chunked
 Content-type: text/xml; charset=utf-8
 
@@ -10,12 +10,12 @@ Content-type: text/xml; charset=utf-8
             <offre>
                 <arrivee>2026-12-10</arrivee>
                 <capacite>2</capacite>
-                <chambre>Double vue port</chambre>
+                <chambre>Premium</chambre>
                 <depart>2026-12-13</depart>
                 <etoiles>4</etoiles>
-                <hotel>Hôtel des Arènes</hotel>
-                <id>OF-118</id>
-                <prixTotal>89.00</prixTotal>
+                <hotel>Hôtel 1</hotel>
+                <id>OF-CH-001</id>
+                <prixTotal>299.97</prixTotal>
             </offre>
             <offre>
                 <arrivee>2026-12-10</arrivee>
@@ -23,9 +23,9 @@ Content-type: text/xml; charset=utf-8
                 <chambre>Familiale</chambre>
                 <depart>2026-12-13</depart>
                 <etoiles>3</etoiles>
-                <hotel>Hôtel des Arènes</hotel>
-                <id>OF-204</id>
-                <prixTotal>124.50</prixTotal>
+                <hotel>Hôtel 1</hotel>
+                <id>OF-CH-002</id>
+                <prixTotal>370.35</prixTotal>
             </offre>
         </ns2:chercherOffresResponse>
     </S:Body>

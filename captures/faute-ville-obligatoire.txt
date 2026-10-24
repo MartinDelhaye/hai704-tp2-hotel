@@ -1,0 +1,14 @@
+HTTP/1.1 500 Internal Server Error
+Date: Sat, 24 Oct 2026 21:18:43 GMT
+Transfer-encoding: chunked
+Content-type: text/xml; charset=utf-8
+
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <S:Fault xmlns:ns4="http://www.w3.org/2003/05/soap-envelope">
+            <faultcode>S:Server</faultcode>
+            <faultstring>ville obligatoire</faultstring>
+        </S:Fault>
+    </S:Body>
+</S:Envelope>
