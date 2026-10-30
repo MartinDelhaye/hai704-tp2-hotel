@@ -1,5 +1,6 @@
 package hai704i.tp2.hotel.metier;
 
+import hai704i.tp2.hotel.depot.AgenceDepot;
 import hai704i.tp2.hotel.depot.ChambreDepot;
 
 import java.math.BigDecimal;
@@ -9,18 +10,28 @@ import java.util.List;
 
 public class HotelService {
 
-    private final ChambreDepot depot;
+    private final ChambreDepot chambreDepot;
+    private final AgenceDepot agenceDepot;
 
-    public HotelService(ChambreDepot depot) {
-        this.depot = depot;
+    public HotelService(
+            ChambreDepot chambreDepot,
+            AgenceDepot agenceDepot
+    ) {
+        this.chambreDepot = chambreDepot;
+        this.agenceDepot = agenceDepot;
     }
 
-    public List<OffreMetier> chercher(CritereRecherche critereRecherche) throws DemandeInvalideException {
+    public List<OffreMetier> chercher(
+            CritereRecherche critereRecherche
+    ) throws DemandeInvalideException, AgenceInconnueException {
+        if (!agenceDepot.estPartenaire(critereRecherche.agence())) {
+            throw new AgenceInconnueException(critereRecherche.agence());
+        }
         valider(critereRecherche);
         long nuits = ChronoUnit.DAYS.between(critereRecherche.arrivee(), critereRecherche.depart());
 
         List<OffreMetier> offres = new ArrayList<>();
-        for (Chambre chambre : depot.toutesLesChambres()) {
+        for (Chambre chambre : chambreDepot.toutesLesChambres()) {
             if (!chambre.ville().equalsIgnoreCase(critereRecherche.ville())) continue;
             if (chambre.capacite() < critereRecherche.personnes()) continue;
             if (chambre.etoiles() < critereRecherche.etoilesMin()) continue;

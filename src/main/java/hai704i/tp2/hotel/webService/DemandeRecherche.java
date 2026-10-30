@@ -6,6 +6,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 
 public class DemandeRecherche {
+    private String agence;
     private String ville;
     private XMLGregorianCalendar arrivee;
     private XMLGregorianCalendar depart;
@@ -14,6 +15,14 @@ public class DemandeRecherche {
     private BigDecimal prixMax;
 
     public DemandeRecherche() {
+    }
+
+    public String getAgence() {
+        return agence;
+    }
+
+    public void setAgence(String agence) {
+        this.agence = agence;
     }
 
     public String getVille() {

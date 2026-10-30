@@ -1,0 +1,19 @@
+HTTP/1.1 500 Internal Server Error
+Date: Fri, 30 Oct 2026 10:28:33 GMT
+Transfer-encoding: chunked
+Content-type: text/xml; charset=utf-8
+
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <S:Fault xmlns:ns4="http://www.w3.org/2003/05/soap-envelope">
+            <faultcode>S:Server</faultcode>
+            <faultstring>agence AG-99999 non partenaire</faultstring>
+            <detail>
+                <ns2:AgenceInconnueException xmlns:ns2="http://hai704i.hotel.fr/">
+                    <message>agence AG-99999 non partenaire</message>
+                </ns2:AgenceInconnueException>
+            </detail>
+        </S:Fault>
+    </S:Body>
+</S:Envelope>

@@ -1,5 +1,6 @@
 package hai704i.tp2.hotel;
 
+import hai704i.tp2.hotel.depot.AgenceDepotMemoire;
 import hai704i.tp2.hotel.depot.ChambreDepotMemoire;
 import hai704i.tp2.hotel.metier.HotelService;
 import hai704i.tp2.hotel.webService.HotelPortImpl;
@@ -10,7 +11,7 @@ public class ServeurHotel {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : 8081;
         String adresse = "http://localhost:" + port + "/hotel";
 
-        HotelService service = new HotelService(new ChambreDepotMemoire());
+        HotelService service = new HotelService(new ChambreDepotMemoire(), new AgenceDepotMemoire());
         Endpoint.publish(adresse, new HotelPortImpl(service));
         System.out.println("Hôtel publié : " + adresse + "?wsdl");
     }

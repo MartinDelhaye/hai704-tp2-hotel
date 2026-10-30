@@ -15,7 +15,6 @@ public interface HotelPort {
     @WebMethod(operationName = "chercherOffres")
     @WebResult(name = "offre")
     List<Offre> chercherOffres(
-            @WebParam(name = "demande")
-            DemandeRecherche demande
-    );
+            @WebParam(name = "demande") DemandeRecherche demande
+    ) throws AgenceInconnueFaultException;
 }

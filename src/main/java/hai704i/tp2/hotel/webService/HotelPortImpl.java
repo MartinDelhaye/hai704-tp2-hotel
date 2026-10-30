@@ -1,9 +1,6 @@
 package hai704i.tp2.hotel.webService;
 
-import hai704i.tp2.hotel.metier.CritereRecherche;
-import hai704i.tp2.hotel.metier.DemandeInvalideException;
-import hai704i.tp2.hotel.metier.HotelService;
-import hai704i.tp2.hotel.metier.OffreMetier;
+import hai704i.tp2.hotel.metier.*;
 import jakarta.jws.WebService;
 
 import java.time.LocalDate;
@@ -27,24 +24,19 @@ public class HotelPortImpl implements HotelPort {
     }
 
     @Override
-    public List<Offre> chercherOffres(DemandeRecherche d) {
+    public List<Offre> chercherOffres(DemandeRecherche d) throws AgenceInconnueFaultException {
         try {
             CritereRecherche critere = (d == null) ? null : new CritereRecherche(
-                    d.getVille(),
-                    versLocalDate(d.getArrivee()),
-                    versLocalDate(d.getDepart()),
-                    d.getPersonnes(),
-                    d.getEtoilesMin(),
-                    d.getPrixMax()
-            );
-
+                    d.getAgence(), d.getVille(), versLocalDate(d.getArrivee()), versLocalDate(d.getDepart()),
+                    d.getPersonnes(), d.getEtoilesMin(), d.getPrixMax());
             List<OffreMetier> offres = service.chercher(critere);
-
             List<Offre> res = new ArrayList<>();
             for (OffreMetier o : offres) res.add(versDto(o));
             return res;
+        } catch (AgenceInconnueException e) {
+            throw new AgenceInconnueFaultException(e.getMessage(), new FaultInfo(e.getMessage()));
         } catch (DemandeInvalideException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());   // provisoire
         }
     }
 

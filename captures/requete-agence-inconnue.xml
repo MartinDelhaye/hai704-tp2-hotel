@@ -1,0 +1,16 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:h="http://hai704i.hotel.fr/">
+    <soap:Body>
+        <h:chercherOffres>
+            <demande>
+                <agence>AG-99999</agence>
+                <arrivee>2026-12-10</arrivee>
+                <depart>2026-12-13</depart>
+                <etoilesMin>3</etoilesMin>
+                <personnes>2</personnes>
+                <prixMax>400.00</prixMax>
+                <ville>Montpellier</ville>
+            </demande>
+        </h:chercherOffres>
+    </soap:Body>
+</soap:Envelope>

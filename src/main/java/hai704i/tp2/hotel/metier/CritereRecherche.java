@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record CritereRecherche(
+        String agence,
         String ville,
         LocalDate arrivee,
         LocalDate depart,
