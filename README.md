@@ -7,7 +7,7 @@
 Ce projet est le **fournisseur** : il publie le service web d'un hôtel.
 Il est indépendant du projet `agence`, qui ne le connaît que par son contrat (WSDL).
 
-> État : A5
+> État : A8
 
 ## 1. Rôle et relations
 
