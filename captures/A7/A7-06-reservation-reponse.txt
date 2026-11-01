@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+Date: Sun, 01 Nov 2026 16:14:37 GMT
+Transfer-encoding: chunked
+Content-type: text/xml; charset=utf-8
+
+<?xml version='1.0' encoding='UTF-8'?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"><S:Body><ns2:reserverResponse xmlns:ns2="http://hai704i.hotel.fr/"><confirmation><arrivee>2026-12-10</arrivee><chambre>Premium</chambre><depart>2026-12-13</depart><hotel>Hôtel 1</hotel><idOffre>DV-d513cbd0-1419-4fc6-985c-c2be194bcba2</idOffre><prixTotal>299.97</prixTotal><referenceReservation>RES-ce04d292-620c-4142-af8c-9434ea8153ec</referenceReservation><rejeu>false</rejeu></confirmation></ns2:reserverResponse></S:Body></S:Envelope>
