@@ -14,7 +14,6 @@ public record Reservation(
         LocalDate arrivee,
         LocalDate depart,
         BigDecimal prixTotal,
-        String nom, String prenom,
-        String carteFin
+        String nom, String prenom
 ) {
 }

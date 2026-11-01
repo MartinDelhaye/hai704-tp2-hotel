@@ -7,7 +7,7 @@
 Ce projet est le **fournisseur** : il publie le service web d'un hôtel.
 Il est indépendant du projet `agence`, qui ne le connaît que par son contrat (WSDL).
 
-> État : A4
+> État : A5
 
 ## 1. Rôle et relations
 
@@ -47,7 +47,7 @@ Le processus reste actif tant que le serveur écoute. Message attendu :
 
 Pour arrêter : `Ctrl+C` (terminal) ou bouton d'arrêt (IntelliJ).
 
-## 6. Adresses publiées
+## 5. Adresses publiées
 
 | Ressource | URL |
 |---|---|
@@ -59,7 +59,7 @@ Port par défaut : 8081
 
 ## 6. Jeu de données fictif
 
-- **Agences partenaires** : `AG-01`, `AG-02`, `AG-67`. Toute autre agence reçoit la faute `AgenceInconnueException`.
+- **Agences partenaires** : `AG-01`, `AG-02`, `AG-03`. Toute autre agence reçoit la faute `AgenceInconnueException`.
 - **Chambres** (ville : Montpellier, hôtel : « Hôtel 1 »)
 
 | Id | Nom | Étoiles | Capacité | Prix / nuit |
@@ -68,10 +68,17 @@ Port par défaut : 8081
 | CH-002 | Familiale | 3 | 4 | 123.45 |
 | CH-003 | Classique | 2 | 1 | 67.00 |
 
-Le prix d'une offre est le prix de la nuit multiplié par le nombre de nuits.
-Aucune donnée bancaire réelle n'est utilisée dans ce projet.
+Le prix d'une offre est le prix de la nuit multiplié par le nombre de nuits. Une offre est un devis (`DV-0X0X0X0`) valable **15 minutes**.
 
-## 8. Essai à la main
+## 7. Secrets des agences
+
+La réservation exige que l'agence présente son secret. L'hôtel ne range jamais ce secret : `AgenceDepotMemoire` ne contient que des empreintes salées (PBKDF2, au format `sel:empreinte` en hexadécimal).
+
+Pour produire une empreinte, lancer `hai704i.tp2.hotel.outil.GenererEmpreinte` avec le secret en argument, puis coller la ligne obtenue dans `AgenceDepotMemoire`
+
+Secrets fictifs de démonstration : `secret-ag-01`, `secret-ag-02`, `secret-ag-03`.
+
+## 8. Essai à la main (recherche)
 
 Exemple de requête (fichier `captures/requete.xml`). Les éléments de `<demande>` doivent suivre l'ordre du schéma (alphabétique) :
 
@@ -98,5 +105,7 @@ Exemple de requête (fichier `captures/requete.xml`). Les éléments de `<demand
 curl.exe -s -X POST http://localhost:8081/hotel -H "Content-Type: text/xml; charset=utf-8" --data-binary "@captures/requete.xml"
 ```
 
-Résultat attendu : deux offres (`OF-CH-001` à 299.97, `OF-CH-002` à 370.35).
+Résultat : 
+
+Deux offres, `Premium` à 299.97 et `Familiale` à 370.35, chacune avec un identifiant de devis `DV-X0X0X0`.
 Avec `<agence>AG-99999</agence>` : HTTP 500 et un `<S:Fault>` dont le `<detail>` contient `AgenceInconnueException`.

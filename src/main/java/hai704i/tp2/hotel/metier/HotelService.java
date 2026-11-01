@@ -32,7 +32,6 @@ public class HotelService {
     private final DevisDepot devisDepot;
     private static final Duration VALIDITE_DEVIS = Duration.ofMinutes(15);
     private final ReservationDepot reservationDepot;
-    private static final EmpreinteSecret EMPREINTE_FACTICE = Hachage.deriver("agence-inconnue");
 
     public HotelService(
             ChambreDepot chambreDepot,
@@ -46,7 +45,9 @@ public class HotelService {
         this.reservationDepot = reservationDepot;
     }
 
-    public List<Devis> chercher(CritereRecherche critereRecherche) throws DemandeInvalideException, AgenceInconnueException {
+    public List<Devis> chercher(CritereRecherche critereRecherche)
+            throws DemandeInvalideException, AgenceInconnueException {
+        if (critereRecherche == null) throw new DemandeInvalideException("demande absente");
         if (!agenceDepot.estPartenaire(critereRecherche.agence())) {
             throw new AgenceInconnueException(critereRecherche.agence());
         }
@@ -80,7 +81,6 @@ public class HotelService {
     }
 
     private void valider(CritereRecherche c) throws DemandeInvalideException {
-        if (c == null) throw new DemandeInvalideException("demande absente");
         if (c.ville() == null || c.ville().isBlank()) throw new DemandeInvalideException("ville obligatoire");
         if (c.arrivee() == null || c.depart() == null) throw new DemandeInvalideException("dates obligatoires");
         if (!c.depart().isAfter(c.arrivee())) throw new DemandeInvalideException("le départ doit suivre l'arrivée");
@@ -100,41 +100,54 @@ public class HotelService {
         return reserverSousVerrou(c);
     }
 
-    private void authentifier(String agence, String secretPresente) throws AgenceNonAuthentifieeException {
+    private void authentifier(
+            String agence,
+            String secretPresente
+    ) throws AgenceNonAuthentifieeException {
         Optional<EmpreinteSecret> rangee = agenceDepot.empreinteSecret(agence);
-        boolean valide = Hachage.verifier(secretPresente, rangee.orElse(EMPREINTE_FACTICE));
-        if (rangee.isEmpty() || !valide) throw new AgenceNonAuthentifieeException();
+        if (rangee.isEmpty() || !Hachage.verifier(secretPresente, rangee.get())) {
+            throw new AgenceNonAuthentifieeException();
+        }
     }
 
-    private synchronized ResultatReservation reserverSousVerrou(CritereReservation c)
+    private synchronized ResultatReservation reserverSousVerrou(CritereReservation critereReservation)
             throws DemandeInvalideException, PaiementRefuseException, OffreIndisponibleException {
-        Optional<Reservation> existante = reservationDepot.trouver(c.agence(), c.idDemande());
+        Optional<Reservation> existante = reservationDepot.trouver(critereReservation.agence(), critereReservation.idDemande());
         if (existante.isPresent()) {
-            if (!existante.get().idDevis().equals(c.idDevis())) {
+            if (!existante.get().idDevis().equals(critereReservation.idDevis())) {
                 throw new DemandeInvalideException("identifiant de demande déjà utilisé pour une autre offre");
             }
             return new ResultatReservation(existante.get(), true);
         }
 
-        verifierPaiement(c.paiement());
+        verifierPaiement(critereReservation.paiement());
 
-        Devis devis = devisDepot.trouver(c.idDevis())
-                .filter(d -> d.agence().equals(c.agence()))
-                .orElseThrow(() -> new OffreIndisponibleException("offre " + c.idDevis() + " inconnue"));
+        Devis devis = devisDepot.trouver(critereReservation.idDevis())
+                .filter(d -> d.agence().equals(critereReservation.agence()))
+                .orElseThrow(() -> new OffreIndisponibleException("offre " + critereReservation.idDevis() + " inconnue"));
         if (Instant.now().isAfter(devis.expireLe())) {
-            throw new OffreIndisponibleException("offre " + c.idDevis() + " expirée");
+            throw new OffreIndisponibleException("offre " + critereReservation.idDevis() + " expirée");
         }
         if (reservationDepot.chambreOccupee(devis.chambreId(), devis.arrivee(), devis.depart())) {
-            throw new OffreIndisponibleException("offre " + c.idDevis() + " plus disponible");
+            throw new OffreIndisponibleException("offre " + critereReservation.idDevis() + " plus disponible");
         }
 
-        String numero = c.paiement().numeroCarte();
-        Reservation r = new Reservation("RES-" + UUID.randomUUID(), c.idDemande(), devis.id(),
-                c.agence(), devis.chambreId(), devis.hotel(), devis.chambre(),
-                devis.arrivee(), devis.depart(), devis.prixTotal(), c.nom(), c.prenom(),
-                numero.substring(numero.length() - 4));
-        reservationDepot.enregistrer(r);
-        return new ResultatReservation(r, false);
+        Reservation reservation = new Reservation(
+                "RES-" + UUID.randomUUID(),
+                critereReservation.idDemande(),
+                devis.id(),
+                critereReservation.agence(),
+                devis.chambreId(),
+                devis.hotel(),
+                devis.chambre(),
+                devis.arrivee(),
+                devis.depart(),
+                devis.prixTotal(),
+                critereReservation.nom(),
+                critereReservation.prenom()
+        );
+        reservationDepot.enregistrer(reservation);
+        return new ResultatReservation(reservation, false);
     }
 
     private void verifierPaiement(DonneesPaiement p) throws PaiementRefuseException {
