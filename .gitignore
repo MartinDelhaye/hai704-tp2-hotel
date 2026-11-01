@@ -40,4 +40,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-captures/E-tmp.xml
+captures/E/E-tmp.xml
