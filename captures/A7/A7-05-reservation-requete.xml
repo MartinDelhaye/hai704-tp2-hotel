@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:tns="http://hai704i.hotel.fr/">
+    <soapenv:Body>
+        <tns:reserver>
+            <demande>
+                <idDemande>DEM-A7-001</idDemande>
+                <identification>
+                    <idAgence>AG-01</idAgence>
+                    <secret>secret-ag-01</secret>
+                </identification>
+                <idOffre>DV-d513cbd0-1419-4fc6-985c-c2be194bcba2</idOffre>
+                <voyageur>
+                    <nom>Dupont</nom>
+                    <prenom>Alice</prenom>
+                </voyageur>
+                <paiement>
+                    <anneeExpiration>2030</anneeExpiration>
+                    <cvc>123</cvc>
+                    <moisExpiration>12</moisExpiration>
+                    <numeroCarte>4000000000000002</numeroCarte>
+                </paiement>
+            </demande>
+        </tns:reserver>
+    </soapenv:Body>
+</soapenv:Envelope>

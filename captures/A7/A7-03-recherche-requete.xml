@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:tns="http://hai704i.hotel.fr/">
+    <soapenv:Body>
+        <tns:chercherOffres>
+            <demande>
+                <agence>AG-01</agence>
+                <arrivee>2026-12-10</arrivee>
+                <depart>2026-12-13</depart>
+                <etoilesMin>3</etoilesMin>
+                <personnes>2</personnes>
+                <prixMax>400.00</prixMax>
+                <ville>Montpellier</ville>
+            </demande>
+        </tns:chercherOffres>
+    </soapenv:Body>
+</soapenv:Envelope>
