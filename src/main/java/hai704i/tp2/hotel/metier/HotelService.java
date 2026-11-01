@@ -16,6 +16,7 @@ import hai704i.tp2.hotel.metier.requete.ResultatReservation;
 import hai704i.tp2.hotel.metier.securite.Hachage;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.YearMonth;
@@ -53,6 +54,7 @@ public class HotelService {
         }
         valider(critereRecherche);
         long nuits = ChronoUnit.DAYS.between(critereRecherche.arrivee(), critereRecherche.depart());
+        BigDecimal coefficient = agenceDepot.coefficientTarif(critereRecherche.agence());
 
         List<Devis> offres = new ArrayList<>();
         for (Chambre chambre : chambreDepot.toutesLesChambres()) {
@@ -62,8 +64,11 @@ public class HotelService {
             if (reservationDepot.chambreOccupee(chambre.id(), critereRecherche.arrivee(), critereRecherche.depart()))
                 continue;
 
-            BigDecimal prixTotalNuits = chambre.prixNuit().multiply(BigDecimal.valueOf(nuits));
-            if (critereRecherche.prixMax() != null && prixTotalNuits.compareTo(critereRecherche.prixMax()) > 0)
+            BigDecimal prixTotal = chambre.prixNuit()
+                    .multiply(BigDecimal.valueOf(nuits))
+                    .multiply(coefficient)
+                    .setScale(2, RoundingMode.HALF_UP);
+            if (critereRecherche.prixMax() != null && prixTotal.compareTo(critereRecherche.prixMax()) > 0)
                 continue;
 
             Devis devis = new Devis(
@@ -72,7 +77,7 @@ public class HotelService {
                     chambre.id(), chambre.hotel(), chambre.nom(),
                     chambre.etoiles(), chambre.capacite(),
                     critereRecherche.arrivee(), critereRecherche.depart(),
-                    prixTotalNuits,
+                    prixTotal,
                     Instant.now().plus(VALIDITE_DEVIS));
             devisDepot.enregistrer(devis);
             offres.add(devis);

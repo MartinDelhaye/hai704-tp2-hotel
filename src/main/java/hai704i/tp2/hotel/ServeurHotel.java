@@ -11,15 +11,15 @@ import jakarta.xml.ws.Endpoint;
 public class ServeurHotel {
     public static void main(String[] args) {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : 8081;
+        int numero = args.length > 1 ? Integer.parseInt(args[1]) : 1;
         String adresse = "http://localhost:" + port + "/hotel";
 
         HotelService service = new HotelService(
-                new ChambreDepotMemoire(),
-                new AgenceDepotMemoire(),
+                ChambreDepotMemoire.pourHotel(numero),
+                AgenceDepotMemoire.pourHotel(numero),
                 new DevisDepotMemoire(),
-                new ReservationDepotMemoire()
-        );
+                new ReservationDepotMemoire());
         Endpoint.publish(adresse, new HotelPortImpl(service));
-        System.out.println("Hôtel publié : " + adresse + "?wsdl");
+        System.out.println("Hôtel " + numero + " publié : " + adresse + "?wsdl");
     }
 }
