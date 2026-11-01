@@ -1,0 +1,6 @@
+HTTP/1.1 500 Internal Server Error
+Date: Sun, 01 Nov 2026 09:37:53 GMT
+Transfer-encoding: chunked
+Content-type: text/xml; charset=utf-8
+
+<?xml version='1.0' encoding='UTF-8'?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"><S:Body><S:Fault xmlns:ns4="http://www.w3.org/2003/05/soap-envelope"><faultcode>S:Server</faultcode><faultstring>offre DV-8cdccc58-9f26-4d9a-93aa-de4976c0ee11 plus disponible</faultstring><detail><ns2:OffreIndisponibleException xmlns:ns2="http://hai704i.hotel.fr/"><message>offre DV-8cdccc58-9f26-4d9a-93aa-de4976c0ee11 plus disponible</message></ns2:OffreIndisponibleException></detail></S:Fault></S:Body></S:Envelope>

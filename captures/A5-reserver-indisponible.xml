@@ -1,0 +1,25 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:h="http://hai704i.hotel.fr/">
+    <soap:Body>
+        <h:reserver>
+            <demande>
+                <idDemande>REQ-99999</idDemande>
+                <identification>
+                    <idAgence>AG-01</idAgence>
+                    <secret>secret-fictif</secret>
+                </identification>
+                <idOffre>DV-ac66c058-d5c7-4b91-830b-976e433497c6</idOffre>
+                <voyageur>
+                    <nom>Dupont</nom>
+                    <prenom>Alice</prenom>
+                </voyageur>
+                <paiement>
+                    <numeroCarte>0000000000000000</numeroCarte>
+                    <moisExpiration>12</moisExpiration>
+                    <anneeExpiration>2067</anneeExpiration>
+                    <cvc>123</cvc>
+                </paiement>
+            </demande>
+        </h:reserver>
+    </soap:Body>
+</soap:Envelope>
